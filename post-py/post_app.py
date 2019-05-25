@@ -2,6 +2,7 @@ from flask import Flask, request
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+from helpers import health
 import os
 
 
@@ -45,6 +46,9 @@ def get_post(id):
     post = mongo_db.find_one({'_id': ObjectId(id)})
     return dumps(post)
 
+@app.route("/healthcheck")
+def healthcheck():
+    return health(mongo_host, mongo_port)
 
 
 if __name__ == "__main__":
